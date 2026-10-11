@@ -1,0 +1,448 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "test form",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "first name"
+            },
+            {
+              "fieldLabel": "phone number",
+              "fieldType": "number"
+            },
+            {
+              "fieldLabel": "password",
+              "fieldType": "password"
+            },
+            {
+              "fieldLabel": "accupation",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "student"
+                  },
+                  {
+                    "option": "doctor"
+                  },
+                  {
+                    "option": "engneir"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "email",
+              "fieldType": "email"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        0,
+        0
+      ],
+      "id": "70871369-ac7c-402c-8cd1-67347575b684",
+      "name": "On form submission",
+      "webhookId": "c9285c9e-3f6a-47ca-9392-3d0ee34d56cf"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1ngRljNGYA18lrpM0ItMYnOVBoGWEGk8vxjMtSsKbht0",
+          "mode": "list",
+          "cachedResultName": "test spread sheet 2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ngRljNGYA18lrpM0ItMYnOVBoGWEGk8vxjMtSsKbht0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "الورقة1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ngRljNGYA18lrpM0ItMYnOVBoGWEGk8vxjMtSsKbht0/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "first name": "={{ $json['first name'] }}",
+            "phone number": "={{ $json['phone number'] }}",
+            "password": "={{ $json.password }}",
+            "email": "={{ $json.email }}",
+            "accupation": "={{ $json.accupation }}"
+          },
+          "matchingColumns": [
+            "email"
+          ],
+          "schema": [
+            {
+              "id": "first name",
+              "displayName": "first name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "phone number",
+              "displayName": "phone number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "password",
+              "displayName": "password",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "accupation",
+              "displayName": "accupation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        0
+      ],
+      "id": "1023d2e4-c545-43d7-b51f-c6d6fc66f715",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "UOnX0uTCQDkUoDtJ",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0acf9b9f-9ff6-49fe-90ac-fcd9716f8631",
+              "leftValue": "={{ $json.accupation }}",
+              "rightValue": "student",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        448,
+        0
+      ],
+      "id": "2424611c-916e-4c88-b90f-e8b2717f4ca5",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.accupation }}",
+                    "rightValue": "doctor",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "8d31ed78-c018-449a-b72e-4ef6814c281e"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "4cac70eb-3e7a-43f4-bfba-6ddce4c295f3",
+                    "leftValue": "={{ $json.accupation }}",
+                    "rightValue": "engneir",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        672,
+        0
+      ],
+      "id": "f76865c0-085f-4247-a4f1-be82d1dbd052",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "sendTo": "ahmadkadi@gmail.com",
+        "subject": "hello",
+        "message": "doctor lead",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        896,
+        -78.3984375
+      ],
+      "id": "e1f4e9b4-cd52-46df-a0b4-7ce25465a75e",
+      "name": "Send a message",
+      "webhookId": "d8e35906-b4f4-4512-b72d-344f89fae9af",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "pslIYJQ0kiMOpJ9h",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "ahmadkadi@gmail.com",
+        "subject": "hello",
+        "message": "doctor lead",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        896,
+        96
+      ],
+      "id": "e7dbfade-3256-4c9f-bb7c-79bd00d14e60",
+      "name": "Send a message1",
+      "webhookId": "9603db58-c48b-467d-8ba2-1b155dec649d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "pslIYJQ0kiMOpJ9h",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1120,
+        -80
+      ],
+      "id": "c89ab3aa-a424-4c66-b13a-5987b526c315",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "sendTo": "dhdhh@gmail.com",
+        "subject": "new lead",
+        "message": "you have a new lead",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1344,
+        -80
+      ],
+      "id": "40bc3575-41c6-4558-a8fa-f1e8e2c9e17a",
+      "name": "Send a message2",
+      "webhookId": "4ea7d830-4707-4d54-a06e-168c5ec5c101",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "pslIYJQ0kiMOpJ9h",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "first name": "lalai",
+          "phone number": 7827283,
+          "password": "999999",
+          "accupation": "doctor",
+          "email": "jmalbshry824@gmail.com",
+          "submittedAt": "2026-10-11T22:52:03.784+03:00",
+          "formMode": "test"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "7f228432-f30a-477a-b0ae-e644b8a370b1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "adf42a1ed2c3b9a2118cba051a918bce144dba4f92b3e42d790d72c0db02a812"
+  },
+  "nodeGroups": [],
+  "id": "UhdW9JYkkP1HP3ov",
+  "tags": []
+}
